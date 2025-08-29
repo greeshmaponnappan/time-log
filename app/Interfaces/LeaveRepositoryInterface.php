@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Interfaces;
-namespace App\Repositories;
 
 interface LeaveRepositoryInterface
 {

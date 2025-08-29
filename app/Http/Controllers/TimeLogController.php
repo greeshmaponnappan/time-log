@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProjectRequest;
 use App\Repositories\LeaveRepository;
+use App\Interfaces\LeaveRepositoryInterface;
 use App\Repositories\TaskRepository;
+use App\Interfaces\TaskRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,7 +18,7 @@ class TimeLogController extends Controller
     public function index()
     {
         $userId = Auth::id();
-        $timeLogs = app(TaskRepository::class)->getByUser($userId);
+        $timeLogs = app(TaskRepositoryInterface::class)->getByUser($userId);
 
         $projectNames = [
             'website-redesign'    => 'Website Redesign',
@@ -59,10 +61,10 @@ class TimeLogController extends Controller
             return back()->withErrors(['time_spent' => 'A single task cannot exceed 10 hours.'])->withInput();
         }
         // Leave check
-        if (app(LeaveRepository::class)->existsForDate($userId, $date)) {
+        if (app(LeaveRepositoryInterface::class)->existsForDate($userId, $date)) {
             return back()->withErrors(['work_date' => 'Leave exists on this date.'])->withInput();
         }
-        $totalMinutes = app(TaskRepository::class)->getTotalMinutesByDate($userId, $date);
+        $totalMinutes = app(TaskRepositoryInterface::class)->getTotalMinutesByDate($userId, $date);
 
         if ($totalMinutes + $minutesSpent > 600) {
             return back()->withErrors(['time' => 'Total for the day cannot exceed 10 hours.'])->withInput();
@@ -72,7 +74,7 @@ class TimeLogController extends Controller
         $data['user_id'] = $userId;
         $data['time_spent'] = $minutesSpent;
 
-        app(TaskRepository::class)->create($data);
+        app(TaskRepositoryInterface::class)->create($data);
 
         return redirect()->back()->with('success', 'Task added successfully!');
     }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\LeaveRepositoryInterface;
+use App\Interfaces\TaskRepositoryInterface;
 use App\Repositories\LeaveRepository;
 use App\Repositories\TaskRepository;
 use Illuminate\Http\Request;
@@ -17,15 +19,15 @@ class DashboardController extends Controller
         $userId = Auth::id();
         $today = now()->toDateString();
 
-        $totalMinutes = app(TaskRepository::class)->getTotalMinutesByDate($userId, $today);
+        $totalMinutes = app(TaskRepositoryInterface::class)->getTotalMinutesByDate($userId, $today);
 
         $totalHoursToday = floor($totalMinutes / 60) . 'h ' . ($totalMinutes % 60) . 'm';
 
         // Leave applications for today
-        $leaveCountToday = app(LeaveRepository::class)->countByDate($userId, $today);
+        $leaveCountToday = app(LeaveRepositoryInterface::class)->countByDate($userId, $today);
 
         // Recent project time logs
-        $timeLogs = app(TaskRepository::class)->getRecentLogs($userId);
+        $timeLogs = app(TaskRepositoryInterface::class)->getRecentLogs($userId);
 
         $projectNames = [
             'website-redesign'    => 'Website Redesign',

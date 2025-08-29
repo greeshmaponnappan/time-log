@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreLeaveRequest;
 use App\Repositories\LeaveRepository;
+use App\Interfaces\LeaveRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +16,7 @@ class LeaveController extends Controller
     public function index()
     {
         $userId = Auth::id();
-        $leaves = app(LeaveRepository::class)->getUserLeaves($userId);
+        $leaves = app(LeaveRepositoryInterface::class)->getUserLeaves($userId);
         return view('leave', [
             'leaves'=>$leaves,
             'pageTitle' => 'Leave Requests'
@@ -37,11 +38,11 @@ class LeaveController extends Controller
     { //dd($request->validated());
         $userId = Auth::id();
 
-        if (app(LeaveRepository::class)->hasWorkReportForDates($userId, $request->start_date, $request->end_date)) {
+        if (app(LeaveRepositoryInterface::class)->hasWorkReportForDates($userId, $request->start_date, $request->end_date)) {
             return back()->withErrors(['leave' => 'You already have work reports on selected dates, so you cannot apply leave.']);
         }
 
-        app(LeaveRepository::class)->applyLeave($request->validated());
+        app(LeaveRepositoryInterface::class)->applyLeave($request->validated());
 
         return redirect()->back()->with('success', 'Leave applied successfully!');
     }
