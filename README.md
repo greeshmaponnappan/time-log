@@ -1,5 +1,5 @@
 # clone the repo
-https://github.com/greeshmaponnappan/time-log.git
+git clone https://github.com/greeshmaponnappan/time-log.git
 cd time-log
 
 # install PHP dependencies
