@@ -21,4 +21,5 @@ Route::middleware(['auth'])->group(
         Route::post('/leaves', [LeaveController::class, 'store'])->name('leaves.store');
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     }
+
 );
