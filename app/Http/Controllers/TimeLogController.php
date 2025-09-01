@@ -67,7 +67,7 @@ class TimeLogController extends Controller
         $totalMinutes = app(TaskRepositoryInterface::class)->getTotalMinutesByDate($userId, $date);
 
         if ($totalMinutes + $minutesSpent > 600) {
-            return back()->withErrors(['time' => 'Total for the day cannot exceed 10 hours.'])->withInput();
+            return back()->withErrors(['time_spent' => 'Total for the day cannot exceed 10 hours.'])->withInput();
         }
 
         $data = $request->validated();
