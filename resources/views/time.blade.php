@@ -44,7 +44,7 @@
 
         <div class="mb-6">
             <label for="hours-minutes" class="block text-gray-700 font-bold mb-2">Time Spent (HH:MM) <span class="text-red-500">*</span></label>
-            <input type="text" name="time_spent" id="hours-minutes" value="{{ old('time_spent') }}" class="shadow-sm border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., 08:30" required>
+            <input type="time" name="time_spent" id="hours-minutes" value="{{ old('time_spent') }}" class="shadow-sm border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., 08:30" required>
             @error('time_spent')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
